@@ -4,6 +4,10 @@ MENSAJE_ERROR = "*ERROR* Entrada inválida"
 
 
 def comprobar_importe(valor: str) -> bool:
+    if valor.startswith("-"):
+        valor = valor[1:]
+
+    return valor.isdigit()
     """
     Verifica si el importe proporcionado es un número válido.
 
@@ -16,6 +20,10 @@ def comprobar_importe(valor: str) -> bool:
 
 
 def comprobar_comando(comando: str) -> bool:
+    if comando.startswith("-"):
+        comando = comando[1:]
+
+    return comando.isdigit()
     """
     Verifica si el comando está dentro de la lista de comandos válidos.
 
@@ -34,6 +42,7 @@ def mostrar_mensaje_error():
 
 
 def procesar_compra(saldo: float, importe: float) -> float:
+    
     """
     Procesa una operación de compra y actualiza el saldo restando el importe.
 
@@ -153,7 +162,15 @@ def main():
     cont_ventas = 0
     saldo = 0
 
+    encuentra_fin = False
+
     while not encuentra_fin:
+        valor = input("> ").strip()
+        if comprobar_importe(valor):
+            numero = int(valor)
+            cont_compras += 1
+            cont_ventas += 1
+            saldo += numero
 
         comando, importe = recuperar_comando_e_importe(linea)
 
@@ -166,6 +183,7 @@ def main():
         elif comando == "reset":
             
         elif comando == "fin":
+            encuentra_fin = True
             
         elif importe is None or not comprobar_importe(importe):
             
